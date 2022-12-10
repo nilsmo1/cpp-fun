@@ -6,7 +6,7 @@
 
 #define ROWS   15
 #define COLS   15
-#define MINE_P 15
+#define MINE_P 2
 
 #define MINE_C 	  '@'
 #define EMPTY_C   ' '
@@ -75,7 +75,7 @@ void displayField(Field field, int cr, int cc) {
 			cid++;
 		} if (rid == cr && cid == cc) std::cout << endl; 
 		else std::cout << EMPTY_C << endl; cid=0; rid++;
-	}
+	} std::cout << endl;
 }
 
 void showAllMines(Field& field) {
@@ -117,7 +117,9 @@ bool onlyMinesLeft(Field field) {
 	} return true;
 }
 
-void flagCell(Field& field, int cr, int cc) { field[cr][cc].state = FLAGGED; }
+void flagCell(Field& field, int cr, int cc) {
+    if (field[cr][cc].state != SHOWN) {field[cr][cc].state = FLAGGED; }
+}
 
 int main() {
 	
@@ -147,18 +149,24 @@ int main() {
 			case 'e': openCell(field, cr, cc); break;
 			case 'f': flagCell(field, cr, cc); break;
 		} if (in == 'q') break;
-		std::cout << "\033["<<ROWS<<'A';
+		std::cout << "\033["<<ROWS+1<<'A';
 		std::cout << "\033["<<COLS<<'D';
 		displayField(field, cr, cc);
 		Cell tmpc = field[cr][cc];
 		if (tmpc.state == SHOWN && tmpc.content == MINE) {
 			showAllMines(field);
-			std::cout << "\033["<<ROWS<<'A';
-			std::cout << "\033["<<COLS<<'D';
+			std::cout << "\033["<<ROWS+1<<'A';
+			std::cout << "\033["<<COLS+1<<'D';
 			displayField(field, cr, cc);
+			std::cout << "\033["<<1<<'A';
+			std::cout << "\033["<<COLS<<'D';
 			std::cout << "You lose.." << endl;
 			break;
-		} if (onlyMinesLeft(field)) { std::cout << "You win!" << endl; break; }
+		} if (onlyMinesLeft(field)) { 
+			std::cout << "\033["<<1<<'A';
+			std::cout << "\033["<<COLS<<'D';
+            std::cout << "You win!" << endl; break;
+        }
 	} std::cout << "\e[?25h";
 	tcsetattr(0, TCSANOW, &saved_attributes);
     return 0;
