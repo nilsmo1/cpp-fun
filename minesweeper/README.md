@@ -41,3 +41,10 @@ The [Makefile](https://github.com/nilsmo1/cpp-fun/blob/main/minesweeper/Makefile
  . . . . . @ . . @ @ @ . . @ . 
 You lose..
 ```
+
+## Key bindings
+| Key | Action |
+| --- | --- |
+| w/a/s/d | move the cursor | 
+| e | open cell |
+| f | flag cell |
