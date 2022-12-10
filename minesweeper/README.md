@@ -1,5 +1,5 @@
 # Minesweeper
-A terminal based minesweeper game written in C++.
+A terminal based minesweeper game written in C++. (a little bit buggy still)
 
 ## Installation
 The [Makefile](https://github.com/nilsmo1/cpp-fun/blob/main/minesweeper/Makefile) is simple and just produces an exacutable. If you want this program in your path, you will have to do that yourself.
