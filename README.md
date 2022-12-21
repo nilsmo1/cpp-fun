@@ -6,4 +6,4 @@
 
 [**Codeforces**](https://github.com/nilsmo1/Codeforces)
 
-[**Project Euler](https://github.com/nilsmo1/Project-Euler)
+[**Project Euler**](https://github.com/nilsmo1/Project-Euler)
