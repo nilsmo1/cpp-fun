@@ -5,7 +5,7 @@
 #include <termios.h>
 
 #define ROWS   15
-#define COLS   15
+#define COLS   17
 #define MINE_P 15
 
 #define MINE_C 	  '@'
@@ -135,6 +135,7 @@ int main() {
 	Field field = initField();
 	int cr = 0, cc = 0;
 	displayField(field, cr, cr);
+    std::cout << endl;
 	std::cout << "\e[?25l";
 
 	char in;
@@ -147,18 +148,25 @@ int main() {
 			case 'e': openCell(field, cr, cc); break;
 			case 'f': flagCell(field, cr, cc); break;
 		} if (in == 'q') break;
-		std::cout << "\033["<<ROWS<<'A';
-		std::cout << "\033["<<COLS<<'D';
+		std::cout << "\033["<<ROWS+1<<'A';
+		std::cout << "\033["<<COLS+1<<'D';
 		displayField(field, cr, cc);
+        std::cout << endl;
 		Cell tmpc = field[cr][cc];
 		if (tmpc.state == SHOWN && tmpc.content == MINE) {
 			showAllMines(field);
-			std::cout << "\033["<<ROWS<<'A';
-			std::cout << "\033["<<COLS<<'D';
+			std::cout << "\033["<<ROWS+1<<'A';
+			std::cout << "\033["<<COLS+1<<'D';
 			displayField(field, cr, cc);
-			std::cout << "You lose.." << endl;
+			std::cout << "You lose.." << endl;;
 			break;
-		} if (onlyMinesLeft(field)) { std::cout << "You win!" << endl; break; }
+		} if (onlyMinesLeft(field)) {
+			std::cout << "\033["<<ROWS+1<<'A';
+			std::cout << "\033["<<COLS+1<<'D';
+			displayField(field, cr, cc);
+            std::cout << "You win!" << endl; 
+            break;
+        }
 	} std::cout << "\e[?25h";
 	tcsetattr(0, TCSANOW, &saved_attributes);
     return 0;
